@@ -1,12 +1,16 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using MultiMonitorHelper.DisplayModels.Win7;
 using MultiMonitorHelper.DisplayModels.XP;
+
+#endregion
 
 namespace MultiMonitorHelper
 {
     /// <summary>
-    /// Simple display factory class that will choose correct implementation,
-    /// based on an operating system.
+    ///     Simple display factory class that will choose correct implementation,
+    ///     based on an operating system.
     /// </summary>
     public sealed class DisplayFactory
     {
@@ -14,12 +18,12 @@ namespace MultiMonitorHelper
         private static readonly object Lock = new object();
 
         /// <summary>
-        /// Selects correct display model, based on Windows version.
+        ///     Selects correct display model, based on Windows version.
         /// </summary>
         /// <returns></returns>
         public static IDisplayModel GetDisplayModel()
         {
-            lock(Lock)
+            lock (Lock)
             {
                 if (_displayModel != null)
                     return _displayModel;

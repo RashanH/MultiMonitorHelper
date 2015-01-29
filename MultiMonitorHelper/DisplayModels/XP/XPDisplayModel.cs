@@ -1,24 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿#region Usings
+
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using MultiMonitorHelper.DisplayModels.XP.Enum;
 using MultiMonitorHelper.DisplayModels.XP.Struct;
 
+#endregion
+
 namespace MultiMonitorHelper.DisplayModels.XP
 {
-    /// <summary>
-    /// Takes care of XP specific monitor services
-    /// </summary>
-    public class XPDisplayModel : AbstractDisplayModel, IDisplayModel
+    internal sealed class XPDisplayModel : AbstractDisplayModel
     {
-        /// <summary>
-        /// Call this if you want to receive list of currently active monitors.
-        /// What does "active" mean in our context? It means the monitors that are "enabled"
-        /// in Desktop properties screen. 
-        /// </summary>
-        /// <returns>list of active monitors</returns>
-        public IEnumerable<Display> GetActiveDisplays()
+        public override IEnumerable<Display> GetActiveDisplays()
         {
             var displayDevices = GetDisplayDevices();
 
@@ -38,10 +34,6 @@ namespace MultiMonitorHelper.DisplayModels.XP
                 var resolution = mode.resolution;
                 var refreshRate = mode.displayFrequency;
                 var rotation = mode.displayOrientation;
-                var isPrimary = IsPrimaryDisplay(origin);
-
-                if (isPrimary && !displayDevice.StateFlags.HasFlag(DisplayDeviceStateFlags.PrimaryDevice))
-                    throw new Exception("SEEMS LIKE MSDN DOCUMENT LIED, IF THIS ERROR EVER HAPPENS.");
 
                 yield return new Display
                 {
@@ -49,14 +41,23 @@ namespace MultiMonitorHelper.DisplayModels.XP
                     Origin = origin,
                     Rotation = rotation.ToScreenRotation(),
                     RefreshRate = refreshRate,
-                    IsPrimary = isPrimary,
                     Name = displayDevice.DeviceName
                 };
             }
         }
 
-	    /// <summary>
-        /// Gets all possible display devices.
+        public override bool SetRotation(Display display, DisplayRotation rotation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool SetResolution(Display display, Size newResolution)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Gets all possible display devices.
         /// </summary>
         /// <returns></returns>
         private static IEnumerable<DisplayDevice> GetDisplayDevices()
@@ -66,7 +67,7 @@ namespace MultiMonitorHelper.DisplayModels.XP
 
             while (valid)
             {
-                var displayDevice = new DisplayDevice { cb = Marshal.SizeOf(typeof(DisplayDevice)) };
+                var displayDevice = new DisplayDevice {cb = Marshal.SizeOf(typeof (DisplayDevice))};
 
                 valid = XPWrapper.EnumDisplayDevices(null, i, ref displayDevice, 0);
                 if (valid)

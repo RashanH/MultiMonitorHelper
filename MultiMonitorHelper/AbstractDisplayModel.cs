@@ -1,24 +1,27 @@
-﻿using System.Drawing;
+﻿#region Usings
+
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+#endregion
 
 namespace MultiMonitorHelper
 {
-    /// <summary>
-    /// DisplayModels inherit from here, to use "common" functionality.
-    /// </summary>
-    public abstract class AbstractDisplayModel
+    internal abstract class AbstractDisplayModel : IDisplayModel
     {
-        /// <summary>
-        /// Indicates whenever display is primary or not.
-        /// The logic is simple, according to MSDN:
-        /// For display devices only, a POINTL structure that indicates the positional coordinates of
-        /// the display device in reference to the desktop area. The primary display device is always located 
-        /// at coordinates (0,0). 
-        /// </summary>
-        /// <param name="displayStart"></param>
-        /// <returns></returns>
-        public bool IsPrimaryDisplay(Point displayStart)
+        #region Implementation of IDisplayModel
+
+        public abstract IEnumerable<Display> GetActiveDisplays();
+
+        public Display GetPrimaryDisplay()
         {
-            return displayStart.X == 0 && displayStart.Y == 0;
+            return GetActiveDisplays().First(x => x.IsPrimary);
         }
+
+        public abstract bool SetRotation(Display display, DisplayRotation rotation);
+        public abstract bool SetResolution(Display display, Size newResolution);
+
+        #endregion
     }
 }

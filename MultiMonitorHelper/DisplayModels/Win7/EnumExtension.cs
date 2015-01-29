@@ -1,12 +1,16 @@
-﻿using CCD.Enum;
+﻿#region Usings
+
+using CCD.Enum;
+
+#endregion
 
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
     internal static class EnumExtension
     {
         /// <summary>
-        /// This is enum mapper. Essentially it maps from display-model specific to
-        /// interface specific enum. 
+        ///     This is enum mapper. Essentially it maps from display-model specific to
+        ///     interface specific enum.
         /// </summary>
         /// <param name="destEnum"></param>
         /// <returns></returns>

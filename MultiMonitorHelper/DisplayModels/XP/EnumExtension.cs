@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MultiMonitorHelper.DisplayModels.XP.Enum;
+﻿using MultiMonitorHelper.DisplayModels.XP.Enum;
 
 namespace MultiMonitorHelper.DisplayModels.XP
 {
-    public static class EnumExtension
+    internal static class EnumExtension
     {
         /// <summary>
         /// This is enum mapper. Essentially it maps from display-model specific to

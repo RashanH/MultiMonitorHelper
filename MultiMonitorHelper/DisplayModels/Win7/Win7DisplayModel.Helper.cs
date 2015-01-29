@@ -9,7 +9,7 @@ using CCD.Struct;
 
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
-    public partial class Win7DisplayModel
+    internal partial class Win7DisplayModel
     {
         /// <summary>
         /// Creates new instance of Win7Display
@@ -36,7 +36,6 @@ namespace MultiMonitorHelper.DisplayModels.Win7
             var refreshRate =
                 (int) Math.Round((double) path.targetInfo.refreshRate.numerator/path.targetInfo.refreshRate.denominator);
             var rotationOriginal = path.targetInfo.rotation;
-            var isPrimary = IsPrimaryDisplay(origin);
 
 
             // query for display name.
@@ -53,7 +52,6 @@ namespace MultiMonitorHelper.DisplayModels.Win7
                 Origin = origin,
                 Rotation = rotationOriginal.ToScreenRotation(),
                 RefreshRate = refreshRate,
-                IsPrimary = isPrimary,
                 Name = displayName
             };
         }

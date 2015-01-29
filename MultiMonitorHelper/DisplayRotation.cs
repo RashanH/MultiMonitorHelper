@@ -1,32 +1,35 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace MultiMonitorHelper
 {
     /// <summary>
-    /// Indicates degrees of current display.
+    ///     Indicates degrees of current display.
     /// </summary>
     [Flags]
     public enum DisplayRotation
     {
         /// <summary>
-        /// No rotation applied
+        ///     No rotation applied
         /// </summary>
-        Default, 
+        Default,
 
         /// <summary>
-        /// Rotated 90 degrees
+        ///     Rotated 90 degrees
         /// </summary>
         Rotated90,
 
         /// <summary>
-        /// Rotated 180 degrees
+        ///     Rotated 180 degrees
         /// </summary>
         Rotated180,
 
         /// <summary>
-        /// Rotated 270 degrees
+        ///     Rotated 270 degrees
         /// </summary>
         Rotated270
-
     }
 }

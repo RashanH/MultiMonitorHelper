@@ -1,48 +1,52 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Runtime.InteropServices;
 using MultiMonitorHelper.DisplayModels.XP.Enum;
 using MultiMonitorHelper.DisplayModels.XP.Struct;
 
+#endregion
+
 namespace MultiMonitorHelper.DisplayModels.XP
 {
-	public class XPWrapper
-	{
-
+    internal sealed class XPWrapper
+    {
         [DllImport("User32.dll")]
-        public static extern bool EnumDisplayDevices(string lpDevice, int iDevNum, ref DisplayDevice lpDisplayDevice, int dwFlags);
-
-		[DllImport("user32.dll", CharSet = CharSet.Ansi)]
-		public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DevMode devMode);
+        public static extern bool EnumDisplayDevices(string lpDevice, int iDevNum, ref DisplayDevice lpDisplayDevice,
+            int dwFlags);
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi)]
-        public static extern bool EnumDisplaySettingsEx(string lpszDeviceName, int iModeNum, ref DevMode lpDevMode, uint dwFlags);
+        public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DevMode devMode);
 
-		[DllImport("user32.dll", CharSet = CharSet.Ansi)]
-		private static extern DispChange ChangeDisplaySettingsEx(string deviceName, ref DevMode lpDevMode, 
-                                                                IntPtr hwnd, int dwflags, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Ansi)]
+        public static extern bool EnumDisplaySettingsEx(string lpszDeviceName, int iModeNum, ref DevMode lpDevMode,
+            uint dwFlags);
 
-		[DllImport("user32.dll", CharSet = CharSet.Ansi)]
-		private static extern DispChange ChangeDisplaySettingsEx(string deviceName, IntPtr devmode, 
-                                                                IntPtr hwnd, int dwflags, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Ansi)]
+        private static extern DispChange ChangeDisplaySettingsEx(string deviceName, ref DevMode lpDevMode,
+            IntPtr hwnd, int dwflags, IntPtr lParam);
 
-		[DllImport("user32.dll")]
-		public static extern int ChangeDisplaySettings(ref DevMode devMode, int flags);
+        [DllImport("user32.dll", CharSet = CharSet.Ansi)]
+        private static extern DispChange ChangeDisplaySettingsEx(string deviceName, IntPtr devmode,
+            IntPtr hwnd, int dwflags, IntPtr lParam);
 
+        [DllImport("user32.dll")]
+        public static extern int ChangeDisplaySettings(ref DevMode devMode, int flags);
 
-		/// <summary>
-		/// Reads the device information using XP native functions
-		/// and fills our specific structure.
-		/// </summary>
-		/// <param name="deviceName">Name of the device to get screen information from.</param>
-		/// <returns>Fills it with screen resolution</returns>
-		public void ReadDeviceInformation(string deviceName)
-		{
-			var vDevMode = new DevMode();
-		    int rt = 0;// EnumDisplaySettings(deviceName, -1, ref vDevMode);
+        /// <summary>
+        ///     Reads the device information using XP native functions
+        ///     and fills our specific structure.
+        /// </summary>
+        /// <param name="deviceName">Name of the device to get screen information from.</param>
+        /// <returns>Fills it with screen resolution</returns>
+        public void ReadDeviceInformation(string deviceName)
+        {
+            var vDevMode = new DevMode();
+            int rt = 0; // EnumDisplaySettings(deviceName, -1, ref vDevMode);
 
-			if(rt != 0)
-			{
-				/*
+            if (rt != 0)
+            {
+                /*
 				// This is not necessiarly true
 				// TODO: In future, replace that.
 				// Primary is not always DISPLAY1 AFAIK
@@ -53,13 +57,12 @@ namespace MultiMonitorHelper.DisplayModels.XP
 				scr.WorkingArea = new Rectangle(vDevMode.dmPositionX, vDevMode.dmPositionY,
 											vDevMode.dmPelsWidth, vDevMode.dmPelsHeight);
 				scr.DeviceName = vDevMode.dmDeviceName;*/
-			}
+            }
+        }
 
-		}
-
-		public void GetScreens()
-		{
-			/*var scrList = new List<ScreenUnsealed>();
+        public void GetScreens()
+        {
+            /*var scrList = new List<ScreenUnsealed>();
 
 			ScreenUnsealed primary = ReadDeviceInformation("\\\\.\\DISPLAY1");
 			ScreenUnsealed secondary = ReadDeviceInformation("\\\\.\\DISPLAY2");
@@ -67,13 +70,11 @@ namespace MultiMonitorHelper.DisplayModels.XP
 			if(primary != null) scrList.Add(primary);
 			if(secondary != null) scrList.Add(secondary);
 			*/
+        }
 
-		}
-
-
-		public bool ChangeSecondaryResolution(int width, int height)
-		{
-			/*
+        public bool ChangeSecondaryResolution(int width, int height)
+        {
+            /*
 			var dm = new DevMode
 			             {
 			                 dmDeviceName = new String(new char[32]),
@@ -91,12 +92,12 @@ namespace MultiMonitorHelper.DisplayModels.XP
 			}
 			return false;*/
 
-			return true;
-		}
+            return true;
+        }
 
-		public bool SetExtended()
-		{
-			/*const string szActiveDeviceName = "\\\\.\\DISPLAY1";
+        public bool SetExtended()
+        {
+            /*const string szActiveDeviceName = "\\\\.\\DISPLAY1";
 			const string szInactiveDeviceName = "\\\\.\\DISPLAY2";
 
 			var dmPrimary = new DevMode();
@@ -170,7 +171,7 @@ namespace MultiMonitorHelper.DisplayModels.XP
 			}
 			return false;*/
 
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 }

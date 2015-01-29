@@ -1,29 +1,33 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using CCD.Enum;
 
+#endregion
+
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
-    public partial class Win7DisplayModel : AbstractDisplayModel, IDisplayModel
+    internal partial class Win7DisplayModel : AbstractDisplayModel
     {
-        #region IDisplayModel Members
-
-        /// <summary>
-        /// Call this if you want to receive list of currently active monitors.
-        /// What does "active" mean in our context? It means the monitors that are "enabled"
-        /// in Desktop properties screen. 
-        /// </summary>
-        /// <returns>list of active monitors</returns>
-        public IEnumerable<Display> GetActiveDisplays()
+        public override IEnumerable<Display> GetActiveDisplays()
         {
             DisplayConfigTopologyId topologyId;
-            var pathWraps = GetPathWrap(QueryDisplayFlags.OnlyActivePaths, out topologyId); 
+            var pathWraps = GetPathWrap(QueryDisplayFlags.OnlyActivePaths, out topologyId);
 
             // convert pathWrap elements to IDisplay elements(actually Win7Display elements)
             return pathWraps.Select(CreateDisplay);
         }
 
-	    #endregion
+        public override bool SetRotation(Display display, DisplayRotation rotation)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public override bool SetResolution(Display display, Size newResolution)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
