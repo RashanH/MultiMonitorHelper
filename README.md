@@ -3,14 +3,14 @@ MultiMonitorHelper
 
 API decided to help manage states/query of multiple monitors, using C# language. 
 
-It allows to extend and clone monitors easily(abstracting WinXP, Vista, 7, and 8), at the same time,
-you can query information about your monitors. 
+It allows to manipulate connected displays easily (WinXP, Vista, 7, and 8), and query
+information about them. 
 
-The motivation for this library came from the fact that the existing Winforms Screen.cs is weak.
+The motivation for this library came from the fact that the existing Winforms Screen.cs is useless
+for some complex scenarios:
 
-First of all, it's missing a lot of functionality. 
-Second of all, it does not show "latest" information.
+- Does not include latest information about the displays. 
+- Has no support to manipulate displays at all.
 
-The other option is to use pInvoke, but that's madness, since if you want to extend monitor
-on XP, you need to do a lot of non-sense. At the same time, extending monitors on windows7/8 is completely
-another issue. 
+
+pInvoke can get very crazy - I spent weeks trying to clone/extend/manipulate monitors on Windows7.
