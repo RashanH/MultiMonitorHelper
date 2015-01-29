@@ -13,6 +13,23 @@ namespace Tests
     public class DisplayModelTests
     {
         [TestMethod]
+        public void TestIfActiveAndDeActiveWorks()
+        {
+            IDisplayModel displayModel = DisplayFactory.GetDisplayModel();
+            Display primary = displayModel.GetPrimaryDisplay();
+
+            Assert.IsTrue(primary.IsActive);
+
+            primary.SetDeactive();
+
+            Assert.IsFalse(primary.IsActive);
+
+            primary.SetActive();
+
+            Assert.IsTrue(primary.IsActive);
+        }
+
+        [TestMethod]
         public void TestIfResolutionChangingWorks()
         {
             IDisplayModel displayModel = DisplayFactory.GetDisplayModel();
@@ -20,9 +37,7 @@ namespace Tests
 
             var newResolution = new Size(800, 600);
 
-            Assert.IsTrue(displayModel.SetResolution(primary, newResolution));
-
-            primary = displayModel.GetPrimaryDisplay();
+            Assert.IsTrue(primary.SetResolution(newResolution));
 
             Assert.AreEqual(newResolution, primary.Resolution);
         }
@@ -31,7 +46,6 @@ namespace Tests
         public void TestRotation()
         {
             IDisplayModel displayModel = DisplayFactory.GetDisplayModel();
-
             Display primary = displayModel.GetPrimaryDisplay();
 
             var currentOrientation = primary.Rotation;
@@ -40,10 +54,7 @@ namespace Tests
             Assert.AreEqual(DisplayRotation.Default, currentOrientation);
 
             // set the rotation to 180.
-            Assert.IsTrue(displayModel.SetRotation(primary, DisplayRotation.Rotated180));
-
-            // refresh
-            primary = displayModel.GetPrimaryDisplay();
+            Assert.IsTrue(primary.SetRotation(DisplayRotation.Rotated180));
 
             // see if the change worked
             Assert.AreEqual(DisplayRotation.Rotated180, primary.Rotation);

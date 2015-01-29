@@ -1,69 +1,27 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using CCD;
 using CCD.Enum;
 using CCD.Struct;
 
+#endregion
+
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
-    internal partial class Win7DisplayModel
+    internal static class CCDHelpers
     {
         /// <summary>
-        /// Creates new instance of Win7Display
-        /// </summary>
-        /// <returns></returns>
-        private Display CreateDisplay(DisplayConfigPathWrap pathWrap)
-        {
-            var path = pathWrap.Path;
-            var sourceModeInfo = pathWrap.Modes.First(x => x.infoType == DisplayConfigModeInfoType.Source);
-            var origin = new Point
-            {
-                X = sourceModeInfo.sourceMode.position.x,
-                Y = sourceModeInfo.sourceMode.position.y
-            };
-
-            var resolution = new Size
-            {
-                Width = sourceModeInfo.sourceMode.width,
-                Height = sourceModeInfo.sourceMode.height
-            };
-
-            // TODO; MAKE SURE THAT IT IS POSSIBLE TO DIVIDE THIS
-            // WHAT IF DENOMINATOR IS ZERO?!
-            var refreshRate =
-                (int) Math.Round((double) path.targetInfo.refreshRate.numerator/path.targetInfo.refreshRate.denominator);
-            var rotationOriginal = path.targetInfo.rotation;
-
-
-            // query for display name.
-            DisplayConfigSourceDeviceName displayConfigSourceDeviceName;
-
-            var displayName = "<unidentified>"; // TODO refactor it out
-            var nameStatus = GetDisplayConfigSourceDeviceName(sourceModeInfo, out displayConfigSourceDeviceName);
-            if (nameStatus == StatusCode.Success)
-                displayName = displayConfigSourceDeviceName.viewGdiDeviceName;
-
-            return new Display
-            {
-                Resolution = resolution,
-                Origin = origin,
-                Rotation = rotationOriginal.ToScreenRotation(),
-                RefreshRate = refreshRate,
-                Name = displayName
-            };
-        }
-
-        /// <summary>
-        /// This method can be used in order to filter out specific paths that we are interested,
-        /// a long with their corresponding paths. 
+        ///     This method can be used in order to filter out specific paths that we are interested,
+        ///     a long with their corresponding paths.
         /// </summary>
         /// <param name="pathType"></param>
         /// <param name="topologyId"></param>
         /// <returns></returns>
-        private static IEnumerable<DisplayConfigPathWrap> GetPathWrap(QueryDisplayFlags pathType,
+        public static IEnumerable<DisplayConfigPathWrap> GetPathWraps(
+            QueryDisplayFlags pathType,
             out DisplayConfigTopologyId topologyId)
         {
             topologyId = DisplayConfigTopologyId.Zero;
@@ -115,7 +73,7 @@ namespace MultiMonitorHelper.DisplayModels.Win7
                     path.targetInfo.modeInfoIdx
                 })
                 {
-                    if (modeIndex >= 0 && modeIndex < modeInfoArray.Length)
+                    if (modeIndex < modeInfoArray.Length)
                         outputModes.Add(modeInfoArray[modeIndex]);
                 }
 
@@ -125,13 +83,13 @@ namespace MultiMonitorHelper.DisplayModels.Win7
         }
 
         /// <summary>
-        /// This method give you access to monitor device name.
-        /// Such as "\\DISPLAY1"
+        ///     This method give you access to monitor device name.
+        ///     Such as "\\DISPLAY1"
         /// </summary>
         /// <param name="sourceModeInfo"></param>
         /// <param name="displayConfigSourceDeviceName"></param>
         /// <returns></returns>
-        private static StatusCode GetDisplayConfigSourceDeviceName(
+        public static StatusCode GetDisplayConfigSourceDeviceName(
             DisplayConfigModeInfo sourceModeInfo,
             out DisplayConfigSourceDeviceName displayConfigSourceDeviceName)
         {
@@ -144,7 +102,7 @@ namespace MultiMonitorHelper.DisplayModels.Win7
                     size =
                         Marshal.SizeOf(
                             typeof (DisplayConfigSourceDeviceName)),
-                    type = DisplayConfigDeviceInfoType.GetSourceName,
+                    type = DisplayConfigDeviceInfoType.GetSourceName
                 }
             };
 

@@ -56,6 +56,16 @@ namespace MultiMonitorHelper.DisplayModels.XP
             throw new NotImplementedException();
         }
 
+        public override bool TurnOn(Display display)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TurnOff(Display display)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Gets all possible display devices.
         /// </summary>

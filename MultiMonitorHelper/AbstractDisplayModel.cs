@@ -21,6 +21,8 @@ namespace MultiMonitorHelper
 
         public abstract bool SetRotation(Display display, DisplayRotation rotation);
         public abstract bool SetResolution(Display display, Size newResolution);
+        public abstract bool TurnOn(Display display);
+        public abstract bool TurnOff(Display display);
 
         #endregion
     }

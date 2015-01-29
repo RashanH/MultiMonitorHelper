@@ -50,11 +50,9 @@
   <ItemGroup>
     <Compile Include="AbstractDisplayModel.cs" />
     <Compile Include="DisplayFactory.cs" />
+    <Compile Include="DisplayModels\Win7\CCDHelpers.cs" />
     <Compile Include="DisplayModels\Win7\EnumExtension.cs" />
     <Compile Include="DisplayModels\Win7\Win7DisplayModel.cs" />
-    <Compile Include="DisplayModels\Win7\Win7DisplayModel.Helper.cs">
-      <DependentUpon>Win7DisplayModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="DisplayModels\XP\EnumExtension.cs" />
     <Compile Include="DisplayModels\XP\Enum\CdsFlags.cs" />
     <Compile Include="DisplayModels\XP\Enum\DispChange.cs" />

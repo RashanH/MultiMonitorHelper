@@ -9,7 +9,7 @@ namespace MultiMonitorHelper
     /// <summary>
     ///     Each monitor is abstraced away with help of IDisplay.
     /// </summary>
-    public sealed class Display
+    public class Display
     {
         /// <summary>
         ///     Display representation on system. Such as \\.\\DISPLAY1
@@ -52,6 +52,46 @@ namespace MultiMonitorHelper
                 return
                     Origin.X == 0 && Origin.Y == 0;
             }
+        }
+
+        public bool IsActive { get; internal set; }
+
+        /// <summary>
+        ///     Tries to set to rotation of display.
+        /// </summary>
+        /// <param name="rotation">the value of rotation</param>
+        /// <returns>true if successful, false otherwise.</returns>
+        public bool SetRotation(DisplayRotation rotation)
+        {
+            return false;
+        }
+
+        /// <summary>
+        ///     Tries to set resolution of a display.
+        /// </summary>
+        /// <param name="newResolution">new resolution</param>
+        /// <returns>true if successful, false otherwise.</returns>
+        public virtual bool SetResolution(Size newResolution)
+        {
+            return false;
+        }
+
+        /// <summary>
+        ///     Tries to set display as active.
+        /// </summary>
+        /// <returns>true if successful, false otherwise.</returns>
+        public virtual bool SetActive()
+        {
+            return false;
+        }
+
+        /// <summary>
+        ///     Tries to set display as deactive.
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
+        public virtual bool SetDeactive()
+        {
+            return false;
         }
     }
 }
