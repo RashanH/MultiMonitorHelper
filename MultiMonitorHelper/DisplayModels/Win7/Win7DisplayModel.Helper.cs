@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MultiMonitorHelper.Common;
-using MultiMonitorHelper.Common.Interfaces;
-using MultiMonitorHelper.DisplayModels.Win7.Enum;
-using MultiMonitorHelper.DisplayModels.Win7.Struct;
+using CCD;
+using CCD.Enum;
+using CCD.Struct;
 
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
@@ -16,7 +15,7 @@ namespace MultiMonitorHelper.DisplayModels.Win7
         /// Creates new instance of Win7Display
         /// </summary>
         /// <returns></returns>
-        private IDisplay CreateDisplay(DisplayConfigPathWrap pathWrap)
+        private Display CreateDisplay(DisplayConfigPathWrap pathWrap)
         {
             var path = pathWrap.Path;
             var sourceModeInfo = pathWrap.Modes.First(x => x.infoType == DisplayConfigModeInfoType.Source);
@@ -48,9 +47,15 @@ namespace MultiMonitorHelper.DisplayModels.Win7
             if (nameStatus == StatusCode.Success)
                 displayName = displayConfigSourceDeviceName.viewGdiDeviceName;
 
-            return new Win7Display(new DisplaySettings(resolution, origin,
-                rotationOriginal.ToScreenRotation(), refreshRate, isPrimary,
-                displayName));
+            return new Display
+            {
+                Resolution = resolution,
+                Origin = origin,
+                Rotation = rotationOriginal.ToScreenRotation(),
+                RefreshRate = refreshRate,
+                IsPrimary = isPrimary,
+                Name = displayName
+            };
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace MultiMonitorHelper.DisplayModels.Win7
             int numPathArrayElements;
             int numModeInfoArrayElements;
 
-            var status = CCDWrapper.GetDisplayConfigBufferSizes(
+            var status = Wrapper.GetDisplayConfigBufferSizes(
                 pathType,
                 out numPathArrayElements,
                 out numModeInfoArrayElements);
@@ -85,11 +90,11 @@ namespace MultiMonitorHelper.DisplayModels.Win7
 
             // topology ID only valid with QDC_DATABASE_CURRENT
             var queryDisplayStatus = pathType == QueryDisplayFlags.DatabaseCurrent
-                ? CCDWrapper.QueryDisplayConfig(
+                ? Wrapper.QueryDisplayConfig(
                     pathType,
                     ref numPathArrayElements, pathInfoArray,
                     ref numModeInfoArrayElements, modeInfoArray, out topologyId)
-                : CCDWrapper.QueryDisplayConfig(
+                : Wrapper.QueryDisplayConfig(
                     pathType,
                     ref numPathArrayElements, pathInfoArray,
                     ref numModeInfoArrayElements, modeInfoArray);
@@ -145,7 +150,7 @@ namespace MultiMonitorHelper.DisplayModels.Win7
                 }
             };
 
-            return CCDWrapper.DisplayConfigGetDeviceInfo(ref displayConfigSourceDeviceName);
+            return Wrapper.DisplayConfigGetDeviceInfo(ref displayConfigSourceDeviceName);
         }
     }
 }

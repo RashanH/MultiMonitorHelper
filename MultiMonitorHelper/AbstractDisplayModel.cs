@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MultiMonitorHelper.Common
+namespace MultiMonitorHelper
 {
     /// <summary>
     /// DisplayModels inherit from here, to use "common" functionality.

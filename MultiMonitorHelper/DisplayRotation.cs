@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MultiMonitorHelper.Common.Enum
+namespace MultiMonitorHelper
 {
     /// <summary>
     /// Indicates degrees of current display.

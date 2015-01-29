@@ -1,5 +1,4 @@
 ﻿using System;
-using MultiMonitorHelper.Common.Interfaces;
 using MultiMonitorHelper.DisplayModels.Win7;
 using MultiMonitorHelper.DisplayModels.XP;
 

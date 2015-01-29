@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MultiMonitorHelper;
-using MultiMonitorHelper.Common.Enum;
 
 namespace Tests
 {
@@ -13,21 +12,19 @@ namespace Tests
 		{
 			var displayModel = DisplayFactory.GetDisplayModel();
 
-			var primary = displayModel.GetActiveDisplays().First(x => x.Settings.IsPrimary);
-			var currentOrientation = primary.Settings.Rotation;
+			var primary = displayModel.GetActiveDisplays().First(x => x.IsPrimary);
+			var currentOrientation = primary.Rotation;
 
-			primary.Rotate(DisplayRotation.Rotated180);
-			Assert.AreEqual(primary.Settings.Rotation, DisplayRotation.Rotated180);
+		    Assert.AreEqual(primary.Rotation, DisplayRotation.Rotated180);
 
-			primary.Rotate(currentOrientation);
-			Assert.AreEqual(primary.Settings.Rotation, currentOrientation);
+		    Assert.AreEqual(primary.Rotation, currentOrientation);
 		}
 
 		[TestMethod]
 		public void TestIfPrimaryMonitorExists()
 		{
 			var displayModel = DisplayFactory.GetDisplayModel();
-			var primary = displayModel.GetActiveDisplays().FirstOrDefault(x => x.Settings.IsPrimary);
+			var primary = displayModel.GetActiveDisplays().FirstOrDefault(x => x.IsPrimary);
 
 			Assert.AreNotEqual(primary, null);
 		}

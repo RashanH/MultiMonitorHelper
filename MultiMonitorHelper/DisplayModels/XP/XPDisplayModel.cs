@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using MultiMonitorHelper.Common;
-using MultiMonitorHelper.Common.Enum;
-using MultiMonitorHelper.Common.Interfaces;
 using MultiMonitorHelper.DisplayModels.XP.Enum;
 using MultiMonitorHelper.DisplayModels.XP.Struct;
 
@@ -21,12 +18,12 @@ namespace MultiMonitorHelper.DisplayModels.XP
         /// in Desktop properties screen. 
         /// </summary>
         /// <returns>list of active monitors</returns>
-        public IEnumerable<IDisplay> GetActiveDisplays()
+        public IEnumerable<Display> GetActiveDisplays()
         {
             var displayDevices = GetDisplayDevices();
 
             // find out resolution parameters for each display device.
-            foreach(var displayDevice in displayDevices.Where(
+            foreach (var displayDevice in displayDevices.Where(
                 x => x.StateFlags.HasFlag(DisplayDeviceStateFlags.AttachedToDesktop)))
             {
                 var mode = new DevMode {size = (short) Marshal.SizeOf(typeof (DevMode))};
@@ -34,7 +31,7 @@ namespace MultiMonitorHelper.DisplayModels.XP
                 // -1 means current RESOLUTION for specific display.
                 // you can enumerate through 0..N to find supported resolutions.
                 var success = XPWrapper.EnumDisplaySettings(displayDevice.DeviceName, -1, ref mode);
-                if (!success) 
+                if (!success)
                     continue;
 
                 var origin = mode.position;
@@ -43,11 +40,18 @@ namespace MultiMonitorHelper.DisplayModels.XP
                 var rotation = mode.displayOrientation;
                 var isPrimary = IsPrimaryDisplay(origin);
 
-                if(isPrimary && !displayDevice.StateFlags.HasFlag(DisplayDeviceStateFlags.PrimaryDevice))
+                if (isPrimary && !displayDevice.StateFlags.HasFlag(DisplayDeviceStateFlags.PrimaryDevice))
                     throw new Exception("SEEMS LIKE MSDN DOCUMENT LIED, IF THIS ERROR EVER HAPPENS.");
-                    
-                yield return new XPDisplay(new DisplaySettings(resolution, origin, 
-                    rotation.ToScreenRotation(), refreshRate, isPrimary, displayDevice.DeviceName));
+
+                yield return new Display
+                {
+                    Resolution = resolution,
+                    Origin = origin,
+                    Rotation = rotation.ToScreenRotation(),
+                    RefreshRate = refreshRate,
+                    IsPrimary = isPrimary,
+                    Name = displayDevice.DeviceName
+                };
             }
         }
 

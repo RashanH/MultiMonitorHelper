@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MultiMonitorHelper.Common.Interfaces
+namespace MultiMonitorHelper
 {
     /// <summary>
     /// Each display model implementation is abstraced away with help of IDisplayModel.
@@ -13,6 +13,6 @@ namespace MultiMonitorHelper.Common.Interfaces
         /// in Desktop properties screen. 
         /// </summary>
         /// <returns>list of active monitors</returns>
-        IEnumerable<IDisplay> GetActiveDisplays();
+        IEnumerable<Display> GetActiveDisplays();
     }
 }

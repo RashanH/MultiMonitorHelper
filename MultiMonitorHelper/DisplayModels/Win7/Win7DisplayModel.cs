@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MultiMonitorHelper.Common;
-using MultiMonitorHelper.Common.Interfaces;
-using MultiMonitorHelper.DisplayModels.Win7.Enum;
+using CCD.Enum;
 
 namespace MultiMonitorHelper.DisplayModels.Win7
 {
@@ -16,10 +14,10 @@ namespace MultiMonitorHelper.DisplayModels.Win7
         /// in Desktop properties screen. 
         /// </summary>
         /// <returns>list of active monitors</returns>
-        public IEnumerable<IDisplay> GetActiveDisplays()
+        public IEnumerable<Display> GetActiveDisplays()
         {
             DisplayConfigTopologyId topologyId;
-            var pathWraps = GetPathWrap(QueryDisplayFlags.OnlyActivePaths, out topologyId);
+            var pathWraps = GetPathWrap(QueryDisplayFlags.OnlyActivePaths, out topologyId); 
 
             // convert pathWrap elements to IDisplay elements(actually Win7Display elements)
             return pathWraps.Select(CreateDisplay);

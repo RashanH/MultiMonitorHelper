@@ -1,6 +1,6 @@
-﻿using MultiMonitorHelper.Common.Enum;
+﻿using CCD.Enum;
 
-namespace MultiMonitorHelper.DisplayModels.Win7.Enum
+namespace MultiMonitorHelper.DisplayModels.Win7
 {
     internal static class EnumExtension
     {

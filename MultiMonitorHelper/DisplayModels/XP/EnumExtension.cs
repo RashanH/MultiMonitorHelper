@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MultiMonitorHelper.Common.Enum;
 using MultiMonitorHelper.DisplayModels.XP.Enum;
 
 namespace MultiMonitorHelper.DisplayModels.XP
