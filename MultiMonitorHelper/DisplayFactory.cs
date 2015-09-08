@@ -16,6 +16,7 @@ namespace MultiMonitorHelper
     {
         private static IDisplayModel _displayModel;
         private static readonly object Lock = new object();
+        private static Version Windows7 = new Version(6,1);
 
         /// <summary>
         ///     Selects correct display model, based on Windows version.
@@ -36,7 +37,7 @@ namespace MultiMonitorHelper
                 // ALSO, ARE WE AIMING FOR THREAD-SAFETY?!
 
                 var osVersion = Environment.OSVersion;
-                var isWin7 = (osVersion.Version.Major == 6 && osVersion.Version.Minor == 1);
+                var isWin7 = osVersion.Version > Windows7;
 
                 _displayModel = isWin7 ? (IDisplayModel) new Win7DisplayModel() : new XPDisplayModel();
 
