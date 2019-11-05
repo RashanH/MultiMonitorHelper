@@ -1,5 +1,7 @@
 MultiMonitorHelper
 ==================
+Still working - 05//11/2019
+==================
 
 API decided to help manage states/query of multiple monitors, using C# language. 
 
